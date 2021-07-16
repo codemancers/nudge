@@ -1,6 +1,7 @@
 defmodule Nudge.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Nudge.Accounts.Site
 
   @cast_fields ~w(email password password_hash name)a
   @required_fields ~w(email password name)a
@@ -11,6 +12,7 @@ defmodule Nudge.Accounts.User do
     field :password_hash, :string
     field :name, :string
     field :password, :string, virtual: true
+    has_many :sites, Site
 
     timestamps(type: :utc_datetime)
   end
