@@ -1,0 +1,41 @@
+<div class="columns is-centered">
+    <div class="column is-two-fifths">
+    <h1 class="title">Sign Up</h1>
+
+    <%= form_for @changeset, Routes.session_path(@conn,:create_user), [class: "signup-form"], fn f -> %>
+      <div class="field">
+        <%= label f, :name, "Your name", class: "label" %>
+        <div class="control">
+          <%= text_input f, :name, class: "input", placeholder: "John Doe" %>
+        </div>
+        <p class="help is-danger"> <%= error_tag f, :name %></p>
+      </div>
+
+      <div class="field">
+        <%= label f, :email, class: "label" %>
+        <div class="control">
+          <%= email_input f, :email, class: "input", autocomplete: "username", placeholder: "name@yourcompany.com" %>
+        </div>
+        <p class="help is-danger"> <%= error_tag f, :email %></p>
+      </div>
+
+      <div class="field">
+        <%= label f, :password, class: "label" %>
+        <div class="control">
+          <%= password_input f, :password, class: "input", autocomplete: "new-password" %>
+        </div>
+        <p class="help is-danger"> <%= error_tag f, :password %></p>
+      </div>
+
+      <div class="field">
+        <div class="control">
+            <%= submit "Signup", class: "button is-primary" %>
+        </div>
+          <p class="help is-black ">Already have an account? <%= link "Log in instead", to: Routes.session_path(@conn, :login), class: "text-primary" %></p>
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>

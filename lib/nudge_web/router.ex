@@ -9,6 +9,10 @@ defmodule NudgeWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :with_current_user do
+    plug NudgeWeb.Plug.GetCurrentUser
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -17,6 +21,17 @@ defmodule NudgeWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/login", SessionController, :login
+    post "/login", SessionController, :create_session
+    get "/signup", SessionController, :signup
+    post "/signup", SessionController, :create_user
+  end
+
+  scope "/", NudgeWeb do
+    pipe_through [:browser, :with_current_user]
+
+    get "/logout", SessionController, :logout
+    get "/welcome", PageController, :welcome
   end
 
   # Other scopes may use custom stacks.

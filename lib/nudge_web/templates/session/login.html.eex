@@ -1,0 +1,29 @@
+<div class='columns is-centered'>
+  <div class="column is-two-fifths">
+    <h1 class='title'>Login</h1>
+
+    <%= form_for @conn, Routes.session_path(@conn, :create_session), [as: :session, class: "signup-form"] , fn f -> %>
+    <div class="field">
+      <%= label f, :email, class: "label" %>
+      <div class="control">
+      </div>
+      <%= email_input f, :email, class: "input", autocomplete: "username" %>
+      <span class="text-danger"> <%= error_tag f, :email %></span>
+    </div>
+
+    <div class="field">
+      <%= label f, :password, class: "label" %>
+      <div class="control">
+        <%= password_input f, :password, class: "input", autocomplete: "current-password"%>
+        <span class="text-danger"> <%= error_tag f, :password %></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <%= submit "Login", class: "button is-primary" %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

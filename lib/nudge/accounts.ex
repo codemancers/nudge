@@ -37,6 +37,14 @@ defmodule Nudge.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user(id) do
+    unless is_nil(id) do
+      Repo.get(User, id)
+    end
+  end
+
+  def get_user_by_email(email), do: Repo.get_by(User, email: email)
+
   @doc """
   Creates a user.
 
@@ -100,6 +108,17 @@ defmodule Nudge.Accounts do
   """
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
+  end
+
+  def authenticate_user_by_email_passwd(email, password) do
+    if user = get_user_by_email(email) do
+      case Pbkdf2.check_pass(user, password) do
+        {:ok, user} -> {:ok, user}
+        {:error, "invalid password"} -> {:error, :unauthorized}
+      end
+    else
+      {:error, :not_found}
+    end
   end
 
   alias Nudge.Accounts.Site
