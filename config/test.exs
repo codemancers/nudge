@@ -18,5 +18,8 @@ config :nudge, NudgeWeb.Endpoint,
   http: [port: 4002],
   server: false
 
+# during tests (and tests only), you may want to reduce the number of rounds so it does not slow down your test suite.
+config :pbkdf2_elixir, :rounds, 1
+
 # Print only warnings and errors during test
 config :logger, level: :warn
