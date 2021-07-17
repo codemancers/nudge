@@ -21,11 +21,7 @@ defmodule NudgeWeb.Plug.GetCurrentUser do
     user = Accounts.get_user(user_id)
 
     if user do
-      token = Phoenix.Token.sign(conn, "user socket", user.id)
-
-      conn
-      |> assign(:current_user, user)
-      |> assign(:user_token, token)
+      assign(conn, :current_user, user)
     else
       conn
       |> put_flash(:info, "Seems like you are not logged in! Please login to continue")

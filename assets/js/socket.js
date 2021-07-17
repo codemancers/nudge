@@ -26,7 +26,7 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 //
 //     defp put_user_token(conn, _) do
 //       if current_user = conn.assigns[:current_user] do
-//         token = Phoenix.Token.sign(conn, "user socket", current_user.id)
+//         token = Phoenix.Token.sign(conn, "site socket", current_user.id)
 //         assign(conn, :user_token, token)
 //       else
 //         conn
@@ -39,11 +39,11 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 //     <script>window.userToken = "<%= assigns[:user_token] %>";</script>
 //
 // You will need to verify the user token in the "connect/3" function
-// in "lib/web/channels/user_socket.ex":
+// in "lib/web/channels/site_socket.ex":
 //
 //     def connect(%{"token" => token}, socket, _connect_info) do
 //       # max_age: 1209600 is equivalent to two weeks in seconds
-//       case Phoenix.Token.verify(socket, "user socket", token, max_age: 1209600) do
+//       case Phoenix.Token.verify(socket, "site socket", token, max_age: 1209600) do
 //         {:ok, user_id} ->
 //           {:ok, assign(socket, :user, user_id)}
 //         {:error, reason} ->

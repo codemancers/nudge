@@ -10,7 +10,7 @@ defmodule NudgeWeb.Endpoint do
     signing_salt: "m94CsFpK"
   ]
 
-  socket "/socket", NudgeWeb.UserSocket,
+  socket "/socket", NudgeWeb.SiteSocket,
     websocket: true,
     longpoll: false
 
