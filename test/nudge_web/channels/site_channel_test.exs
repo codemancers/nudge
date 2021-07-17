@@ -1,13 +1,16 @@
 defmodule NudgeWeb.SiteChannelTest do
-  use NudgeWeb.ChannelCase
+  use NudgeWeb.ChannelCase, async: true
+  alias NudgeWeb.SiteSocket
+  import Nudge.Factory, only: [fixture: 1]
 
   setup do
-    {:ok, _, socket} =
-      NudgeWeb.SiteSocket
-      |> socket("user_id", %{some: :assign})
-      |> subscribe_and_join(NudgeWeb.SiteChannel, "site:lobby")
+    site = fixture(:site)
+    token = Phoenix.Token.sign(NudgeWeb.Endpoint, "site auth", site.id)
 
-    %{socket: socket}
+    {:ok, socket} = connect(SiteSocket, %{"token" => token})
+    {:ok, _, socket} = subscribe_and_join(socket, NudgeWeb.SiteChannel, "sites:#{site.id}")
+
+    %{socket: socket, site: site}
   end
 
   test "ping replies with status ok", %{socket: socket} do
@@ -15,7 +18,7 @@ defmodule NudgeWeb.SiteChannelTest do
     assert_reply ref, :ok, %{"hello" => "there"}
   end
 
-  test "shout broadcasts to site:lobby", %{socket: socket} do
+  test "shout broadcasts to site:1", %{socket: socket} do
     push(socket, "shout", %{"hello" => "all"})
     assert_broadcast "shout", %{"hello" => "all"}
   end
