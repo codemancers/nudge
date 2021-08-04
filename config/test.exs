@@ -6,10 +6,10 @@ use Mix.Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :nudge, Nudge.Repo,
-  username: System.get_env("POSTGRES_USER","postgres"),
-  password: System.get_env("POSTGRES_PASSWORD","postgres"),
-  database: System.get_env("POSTGRES_DB","nudge_test"),
-  hostname: System.get_env("POSTGRES_HOST","localhost"),
+  username: System.get_env("POSTGRES_USER", "postgres"),
+  password: System.get_env("POSTGRES_PASSWORD", "postgres"),
+  database: System.get_env("POSTGRES_DB", "nudge_test"),
+  hostname: System.get_env("POSTGRES_HOST", "localhost"),
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
