@@ -20,9 +20,9 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: nudge_test
           POSTGRES_HOST: postgres
-      ports:
-        - 5432
-      options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       MIX_ENV: test
 
@@ -31,8 +31,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
       with:
-        elixir-version: '1.7'
-        otp-version: '22.3' 
+        elixir-version: '1.12'
+        otp-version: '24' 
     - name: Restore dependencies cache
       uses: actions/cache@v2
       with:
@@ -41,6 +41,10 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
+    - name: Connect postgres
+      env:
+        POSTGRES_HOST: postgres
+        POSTGRES_PORT: 5432
     - name: create database
       run: mix ecto.create
     - name: migration
