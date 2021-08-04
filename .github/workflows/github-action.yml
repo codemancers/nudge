@@ -48,5 +48,8 @@ jobs:
       run: mix ecto.create
     - name: migration
       run: mix ecto.migrate
+    - name: check format
+      run: mix format --check-formatted
     - name: Run tests
       run: mix test
+
