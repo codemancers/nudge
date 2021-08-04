@@ -41,7 +41,6 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
-    - name: Connect postgres
       env:
         POSTGRES_HOST: postgres
         POSTGRES_PORT: 5432
