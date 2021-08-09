@@ -1,13 +1,40 @@
-FROM elixir:latest
+FROM elixir:1.9.0-alpine AS build
 
-RUN mkdir /app
-COPY . /app
+RUN apk add --no-cache build-base npm git python
 WORKDIR /app
 
-RUN mix local.hex --force
+RUN mix local.hex --force && \
+    mix local.rebar --force
 
-RUN mix do compile
-
-RUN mix release
 ENV MIX_ENV=prod
-CMD mix deps.get && cd assets && npm install && npm run deploy && cd ..
+
+COPY mix.exs mix.lock ./
+COPY config config
+RUN mix do deps.get, deps.compile
+
+COPY assets/package.json assets/package-lock.json ./assets/
+RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
+
+COPY priv priv
+COPY assets assets
+RUN npm run --prefix ./assets deploy
+RUN mix phx.digest
+
+COPY lib lib
+
+RUN mix do compile, release
+
+FROM alpine:3.9 AS app
+RUN apk add --no-cache openssl ncurses-libs
+
+WORKDIR /app
+
+RUN chown nobody:nobody /app
+
+USER nobody:nobody
+
+COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/my_app ./
+
+ENV HOME=/app
+
+CMD ["bin/my_app", "start"]
