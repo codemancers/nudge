@@ -52,8 +52,6 @@ jobs:
       run: mix format --check-formatted
     - name: Run tests
       run: mix test
-    - name: run docker
-      run: docker build -t nudge_phoenix .
   
   build-docker:
 
