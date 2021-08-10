@@ -1,44 +1,58 @@
-FROM hexpm/elixir:1.12.1-erlang-24.0.2-alpine-3.13.3 AS build
+########################################
+# 1. Build elixir backend
+########################################
+FROM hexpm/elixir:1.12.1-erlang-24.0.2-alpine-3.13.3 AS build-elixir
 
-RUN apk add --update git nodejs=14.17.4-r0 npm
+# install build dependencies
+RUN apk add --update git nodejs npm
+
+# prepare build dir
+RUN mkdir /app
 WORKDIR /app
 
+# install hex + rebar
 RUN mix local.hex --force && \
     mix local.rebar --force
 
+# set build ENV
 ENV MIX_ENV=prod
-ENV NODE_ENV=prod
 
-COPY mix.exs mix.lock ./
-COPY config config
-COPY .version ./
+# install dependencies
+COPY mix.* ./
+COPY .version .version
 RUN mix deps.get --force --only prod
 
-COPY assets/package.json assets/package-lock.json ./assets/
-RUN cd assets && npm install
+# install npm dependencies
+COPY assets/package*.json ./assets/
+RUN npm --prefix ./assets install --progress=false --no-audit --loglevel=error
 
-COPY priv priv
+# build assets
 COPY assets assets
 RUN npm run --prefix ./assets deploy
-RUN mix phx.digest
 
-COPY lib lib
-RUN mix do compile, release
+COPY config ./config/
+COPY lib ./lib/
+COPY priv ./priv/
 
-FROM alpine:3.13.3 AS app
-RUN apk add --no-cache openssl ncurses-libs
-WORKDIR /app
+# build release
+RUN mix phx.digest && \
+    mix release
 
-RUN chown nobody:nobody /app
+########################################
+# 2. Build release image
+########################################
+FROM alpine:3.13.3
+RUN mkdir /nudge && \
+    apk add --update --no-cache ncurses-libs
 
+WORKDIR /nudge
+RUN chown nobody:nobody /nudge
 USER nobody:nobody
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/nudge ./
+COPY --from=build-elixir --chown=nobody:nobody /app/_build/prod/rel/nudge/ .
 
 ENV MIX_ENV prod
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
-
 EXPOSE 4000
-
-CMD ["bin/nudge", "start"]
+CMD ["/nudge/bin/nudge", "start"]
