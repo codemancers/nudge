@@ -15,7 +15,7 @@ services:
     depends_on:
       - db
   db:
-    image: alpine:3.13.3
+    image: postgres:13.3-alpine:3.14
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
