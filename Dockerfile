@@ -20,16 +20,13 @@ RUN cd assets && npm install
 COPY priv priv
 COPY assets assets
 RUN npm run --prefix ./assets deploy
-RUN mix phx.digest && \
-    mix release
+RUN mix phx.digest
 
 COPY lib lib
-
 RUN mix do compile, release
 
 FROM alpine:3.13.3 AS app
-RUN apk add --update --no-cache libgcc libstdc++ ncurses-libs
-
+RUN apk add --no-cache openssl ncurses-libs
 WORKDIR /app
 
 RUN chown nobody:nobody /app
