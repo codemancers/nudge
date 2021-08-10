@@ -52,4 +52,14 @@ jobs:
       run: mix format --check-formatted
     - name: Run tests
       run: mix test
+  
+  build-docker:
+
+    name: docker
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: run docker
+      run: docker build -t nudge_phoenix .
 

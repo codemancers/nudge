@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  phoenix:
+    build:
+      context: .
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nudge_dev
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: postgres
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+  db:
+    image: postgres:13.3-alpine:3.14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
