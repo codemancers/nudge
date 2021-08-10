@@ -1,6 +1,6 @@
 FROM hexpm/elixir:1.12.1-erlang-24.0.2-alpine-3.13.3 AS build
 
-RUN apk add --update git nodejs=14.16.1-r1 npm
+RUN apk add --update git nodejs=14.17.4-r0 npm
 WORKDIR /app
 
 RUN mix local.hex --force && \
