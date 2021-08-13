@@ -36,6 +36,7 @@ config :nudge, NudgeWeb.Endpoint,
 # to start each relevant endpoint:
 #
 config :nudge, NudgeWeb.Endpoint, server: true
-#
+  http: [port: {:system, "PORT"}],
+  url: [host: System.get_env("all-friendly-flatfish") <> ".gigalixirapp.com", port: 443]
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.

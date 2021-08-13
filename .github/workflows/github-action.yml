@@ -1,7 +1,5 @@
 name: Elixir CI
-
 on:
-  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
@@ -9,10 +7,8 @@ on:
 
 jobs:
   build:
-
     name: Build and test
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:latest
@@ -26,7 +22,6 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       MIX_ENV: test
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
@@ -55,10 +50,8 @@ jobs:
       run: mix test
   
   build-docker:
-
     name: docker
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: run docker
