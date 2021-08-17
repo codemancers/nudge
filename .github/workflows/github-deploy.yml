@@ -1,11 +1,5 @@
 name: Gigalixir Deployment
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+on: workflow_dispatch
 jobs:
   deploy:
     name: deploy
