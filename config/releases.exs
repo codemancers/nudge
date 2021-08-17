@@ -23,7 +23,7 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
-config :nudge, NudgeWeb.Endpoint,
+config :nudge, NudgeWeb.Endpoint, server: true
   http: [
     port: String.to_integer(System.get_env("PORT") || "4000"),
     transport_options: [socket_opts: [:inet6]]
@@ -35,8 +35,6 @@ config :nudge, NudgeWeb.Endpoint,
 # If you are doing OTP releases, you need to instruct Phoenix
 # to start each relevant endpoint:
 #
-config :nudge, NudgeWeb.Endpoint, server: true
-  http: [port: {:system, "PORT"}],
-  url: [host: System.get_env("all-friendly-flatfish") <> ".gigalixirapp.com", port: 443]
+
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.
