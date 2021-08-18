@@ -21,6 +21,7 @@ defmodule NudgeWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/site", PageController, :new
     get "/login", SessionController, :login
     post "/login", SessionController, :create_session
     get "/signup", SessionController, :signup

@@ -1,0 +1,7 @@
+<h1>Create Site</h1>
+<%= form_for @conn, Routes.page_path(@conn, :new), [multipart: true], fn f -> %>
+  Site: <%= text_input f, :site , required: true %>
+  <div>
+    <%= submit "Submit" %>
+  </div>
+<% end %>
