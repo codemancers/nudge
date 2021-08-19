@@ -1,6 +1,9 @@
 <h1>Create Site</h1>
-<%= form_for @conn, Routes.site_path(@conn, :new), fn f -> %>
-  Site: <%= text_input f, :site , required: true %>
+<%= form_for @conn, Routes.site_path(@conn, :create), fn f -> %>
+
+  Active: <%= checkbox f, :active %>
+  Time zone: <%= text_input f, :tz %>
+  URL: <%= text_input f, :url , required: true, pattern: "https://.*", placeholder: "https://example.com" %>
   <div>
     <%= submit "Submit" %>
   </div>
