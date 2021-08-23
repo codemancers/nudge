@@ -10,8 +10,8 @@ defmodule NudgeWeb.SiteController do
     changeset = Nudge.Accounts.change_site(%Nudge.Accounts.Site{})
     render(conn, "new.html", changeset: changeset)
   end
-  def create(conn, %{"site" => site_params}) do
-    case Nudge.Accounts.create_site(site_params) do
+  def create(conn, %{"active" => active, "tz" => tz, "url" => url}) do
+    case Nudge.Accounts.create_site(%{active: active, tz: tz, url: url, user_id: conn.assigns.current_user.id}) do
       {:ok, site} ->
         conn
         |> put_flash(:info, "Site created successfully.")
