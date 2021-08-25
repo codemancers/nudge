@@ -11,8 +11,11 @@ defmodule NudgeWeb.SiteControllerTest do
 
   def fixture(:user) do
     user_attrs = %{
-      "email" => "abc@email.com", "password" => "passworddd", "name" => "name"
+      "email" => "abc@email.com",
+      "password" => "passworddd",
+      "name" => "name"
     }
+
     {:ok, user} = Nudge.Accounts.create_user(user_attrs)
     user
   end

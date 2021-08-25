@@ -10,6 +10,7 @@ defmodule NudgeWeb.SiteController do
     changeset = Nudge.Accounts.change_site(%Nudge.Accounts.Site{})
     render(conn, "new.html", changeset: changeset)
   end
+
   def create(conn, %{"site" => %{"active" => active, "tz" => tz, "url" => url}}) do
     case Nudge.Accounts.create_site(%{active: active, tz: tz, url: url, user_id: conn.assigns.current_user.id}) do
       {:ok, site} ->
@@ -21,6 +22,7 @@ defmodule NudgeWeb.SiteController do
         render(conn, "new.html", changeset: changeset)
     end
   end
+
   def show(conn, %{"id" => id}) do
     site = Nudge.Accounts.get_site!(id)
     render(conn, "show.html", site: site)
