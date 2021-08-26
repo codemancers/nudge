@@ -1,0 +1,21 @@
+<h1> Sites List </h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Active</th>
+      <th>Timezone</th>
+      <th>Url</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for site <- @sites do %>
+      <tr>
+        <td><%= site.active %></td>
+        <td><%= site.tz %></td>
+        <td><%= site.url %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

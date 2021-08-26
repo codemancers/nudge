@@ -1,0 +1,14 @@
+<h1>Your Site</h1>
+
+<ul>
+  <li>
+    <strong>Tz:</strong>
+    <%= @site.tz %>
+  </li>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @site.url %>
+  </li>
+
+</ul>
