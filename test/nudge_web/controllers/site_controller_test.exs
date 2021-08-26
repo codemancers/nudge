@@ -9,16 +9,21 @@ defmodule NudgeWeb.SiteControllerTest do
     setup [:create_user]
 
     test "redirects after creating when data is valid", %{conn: conn, user: user} do
-      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+      conn =
+        conn
+        |> Plug.Test.init_test_session(user_id: user.id)
+        |> post(Routes.site_path(conn, :create), site: @create_attrs)
 
-      conn = post(conn, Routes.site_path(conn, :create), site: @create_attrs)
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.site_path(conn, :show, id)
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
-      conn = Plug.Test.init_test_session(conn, user_id: user.id)
-      conn = post(conn, Routes.site_path(conn, :create), site: @invalid_attrs)
+      conn =
+        conn
+        |> Plug.Test.init_test_session(user_id: user.id)
+        |> post(Routes.site_path(conn, :create), site: @invalid_attrs)
+
       assert html_response(conn, 200) =~ "Create Site"
     end
   end
