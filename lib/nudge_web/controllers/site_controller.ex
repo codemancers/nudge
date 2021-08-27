@@ -27,4 +27,13 @@ defmodule NudgeWeb.SiteController do
     site = Nudge.Accounts.get_site!(id)
     render(conn, "show.html", site: site)
   end
+
+  # def delete(conn, %{"id" => id}) do
+  #   site = Nudge.Accounts.get_site!(id)
+  #   {:ok, _site} = Nudge.Accounts.delete_site(site)
+
+  #   conn
+  #   |> put_flash(:info, "Site deleted successfully.")
+  #   |> redirect(to: Routes.site_path(conn, :index))
+  # end
 end
