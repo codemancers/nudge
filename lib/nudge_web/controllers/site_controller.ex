@@ -2,8 +2,15 @@ defmodule NudgeWeb.SiteController do
   use NudgeWeb, :controller
 
   def index(conn, _params) do
-    sites = Nudge.Accounts.list_sites()
-    render(conn, "index.html", sites: sites)
+    site = Nudge.Accounts.list_sites()
+    current_user_id = Nudge.Accounts.get_site!(site.id)
+
+    user_site =
+      Site
+      |> Nudge.Accounts.list_user_sites(current_user_id)
+      |> Repo.all()
+
+    render(conn, "index.html", sites: user_site)
   end
 
   def new(conn, _params) do
@@ -27,13 +34,4 @@ defmodule NudgeWeb.SiteController do
     site = Nudge.Accounts.get_site!(id)
     render(conn, "show.html", site: site)
   end
-
-  # def delete(conn, %{"id" => id}) do
-  #   site = Nudge.Accounts.get_site!(id)
-  #   {:ok, _site} = Nudge.Accounts.delete_site(site)
-
-  #   conn
-  #   |> put_flash(:info, "Site deleted successfully.")
-  #   |> redirect(to: Routes.site_path(conn, :index))
-  # end
 end

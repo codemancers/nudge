@@ -31,7 +31,7 @@ defmodule NudgeWeb.SiteControllerTest do
   describe "index/2" do
     setup [:create_user]
 
-    test "lists all albums when signed in", %{conn: conn, user: user} do
+    test "lists all sites when signed in", %{conn: conn, user: user} do
       conn =
         conn
         |> Plug.Test.init_test_session(user_id: user.id)
@@ -40,19 +40,6 @@ defmodule NudgeWeb.SiteControllerTest do
       assert html_response(conn, 200) =~ "Sites List"
     end
   end
-
-  # describe "delete site" do
-  #   setup [:create_site, :create_user]
-
-  #   test "deletes chosen site", %{conn: conn, user: user, site: site} do
-  #     conn = Plug.Test.init_test_session(conn, user_id: user.id)
-  #     conn = delete(conn, Routes.site_path(conn, :delete, site))
-  #     assert redirected_to(conn) == Routes.site_path(conn, :index)
-  #     assert_error_sent 404, fn ->
-  #       get(conn, Routes.site_path(conn, :index, site))
-  #     end
-  #   end
-  # end
 
   defp fixture(:user) do
     user_attrs = %{
@@ -65,18 +52,8 @@ defmodule NudgeWeb.SiteControllerTest do
     user
   end
 
-  # defp fixture(:site) do
-  #   {:ok, site} = Nudge.Accounts.create_site(@create_attrs)
-  #   site
-  # end
-
   defp create_user(_) do
     user = fixture(:user)
     {:ok, user: user}
   end
-
-  # defp create_site(_) do
-  #   site = fixture(:site)
-  #   {:ok, site: site}
-  # end
 end
