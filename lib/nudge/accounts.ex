@@ -7,6 +7,7 @@ defmodule Nudge.Accounts do
   alias Nudge.Repo
 
   alias Nudge.Accounts.User
+  alias Nudge.Accounts.Site
 
   @doc """
   Returns the list of users.
@@ -17,9 +18,12 @@ defmodule Nudge.Accounts do
       [%User{}, ...]
 
   """
-  def list_user_sites(query, current_user_id) do
-    from site in query,
-      where: site.user_id == ^current_user_id
+  def list_user_sites(Site, current_user_id) do
+    query =
+      from site in Site,
+        where: site.user_id == ^current_user_id
+
+    Repo.all(query)
   end
 
   def list_users do

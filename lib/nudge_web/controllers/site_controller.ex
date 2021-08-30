@@ -1,25 +1,23 @@
 defmodule NudgeWeb.SiteController do
   use NudgeWeb, :controller
+  alias Nudge.Accounts
+  alias Nudge.Accounts.Site
 
   def index(conn, _params) do
-    site = Nudge.Accounts.list_sites()
-    current_user_id = Nudge.Accounts.get_site!(site.id)
-
-    user_site =
-      Site
-      |> Nudge.Accounts.list_user_sites(current_user_id)
-      |> Repo.all()
+    user_id = get_session(conn, :user_id)
+    current_user_id = Accounts.get_user(user_id)
+    user_site = Accounts.list_user_sites(Site, current_user_id)
 
     render(conn, "index.html", sites: user_site)
   end
 
   def new(conn, _params) do
-    changeset = Nudge.Accounts.change_site(%Nudge.Accounts.Site{})
+    changeset = Accounts.change_site(%Site{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"site" => %{"active" => active, "tz" => tz, "url" => url}}) do
-    case Nudge.Accounts.create_site(%{active: active, tz: tz, url: url, user_id: conn.assigns.current_user.id}) do
+    case Accounts.create_site(%{active: active, tz: tz, url: url, user_id: conn.assigns.current_user.id}) do
       {:ok, site} ->
         conn
         |> put_flash(:info, "Site created successfully.")
@@ -31,7 +29,7 @@ defmodule NudgeWeb.SiteController do
   end
 
   def show(conn, %{"id" => id}) do
-    site = Nudge.Accounts.get_site!(id)
+    site = Accounts.get_site!(id)
     render(conn, "show.html", site: site)
   end
 end
