@@ -26,6 +26,24 @@ defmodule NudgeWeb.SiteController do
     end
   end
 
+  def edit(conn, %{"id" => id}) do
+    site = Accounts.get_site!(id)
+    changeset = Accounts.change_site(site)
+    render(conn, "edit.html", site: site, changeset: changeset)
+  end
+
+  def update(conn, %{"id" => id, "site" => site_params}) do
+    site = Accounts.get_site!(id)
+
+    case Accounts.update_site(site, site_params) do
+      {:ok, site} ->
+        redirect(conn, to: Routes.site_path(conn, :index))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", site: site, changeset: changeset)
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     site = Accounts.get_site!(id)
     render(conn, "show.html", site: site)

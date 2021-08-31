@@ -12,7 +12,7 @@
   <tbody>
     <%= for site <- @sites do %>
       <tr>
-        <td><%= site.active %></td>
+        <td><%= link site.active, to: Routes.site_path(@conn, :edit, site) %></td>
         <td><%= site.tz %></td>
         <td><%= site.url %></td>
       </tr>
