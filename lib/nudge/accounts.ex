@@ -18,13 +18,6 @@ defmodule Nudge.Accounts do
       [%User{}, ...]
 
   """
-  def list_user_sites(Site, current_user_id) do
-    query =
-      from site in Site,
-        where: site.user_id == ^current_user_id
-
-    Repo.all(query)
-  end
 
   def list_users do
     Repo.all(User)
@@ -143,6 +136,14 @@ defmodule Nudge.Accounts do
   """
   def list_sites do
     Repo.all(Site)
+  end
+
+  def list_user_sites(current_user_id) do
+    query =
+      from site in Site,
+        where: site.user_id == ^current_user_id
+
+    Repo.all(query)
   end
 
   @doc """

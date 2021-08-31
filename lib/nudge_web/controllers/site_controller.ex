@@ -4,11 +4,9 @@ defmodule NudgeWeb.SiteController do
   alias Nudge.Accounts.Site
 
   def index(conn, _params) do
-    user_id = get_session(conn, :user_id)
-    current_user_id = Accounts.get_user(user_id)
-    user_site = Accounts.list_user_sites(Site, current_user_id)
-
-    render(conn, "index.html", sites: user_site)
+    current_user_id = conn.assigns.current_user.id
+    user_sites = Accounts.list_user_sites(current_user_id)
+    render(conn, "index.html", sites: user_sites)
   end
 
   def new(conn, _params) do
