@@ -64,6 +64,12 @@ defmodule Nudge.AccountsTest do
       assert Accounts.list_sites() == [site]
     end
 
+    test "list_user_sites/1 returns all sites" do
+      user = fixture(:user)
+      site = fixture(:site, %{user_id: user.id})
+      assert Accounts.list_user_sites(user.id) == [site]
+    end
+
     test "get_site!/1 returns the site with given id" do
       site = fixture(:site)
       assert Accounts.get_site!(site.id) == site
