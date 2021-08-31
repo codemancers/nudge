@@ -1,11 +1,12 @@
 defmodule NudgeWeb.SiteControllerTest do
   use NudgeWeb.ConnCase
   use Plug.Test
+  import Nudge.Factory
 
   @create_attrs %{active: true, tz: "UTC", url: "https://example.com"}
   @invalid_attrs %{active: nil, tz: nil, url: nil}
 
-  describe "create site" do
+  describe "create/2" do
     setup [:create_user]
 
     test "redirects after creating when data is valid", %{conn: conn, user: user} do
@@ -28,15 +29,19 @@ defmodule NudgeWeb.SiteControllerTest do
     end
   end
 
-  defp fixture(:user) do
-    user_attrs = %{
-      "email" => "abc@email.com",
-      "password" => "passworddd",
-      "name" => "name"
-    }
+  describe "index/2" do
+    setup [:create_user]
 
-    {:ok, user} = Nudge.Accounts.create_user(user_attrs)
-    user
+    test "lists all sites when signed in", %{conn: conn, user: user} do
+      site = fixture(:site, %{user_id: user.id})
+
+      conn =
+        conn
+        |> Plug.Test.init_test_session(user_id: user.id)
+        |> get(Routes.site_path(conn, :index))
+
+      assert html_response(conn, 200) =~ site.url
+    end
   end
 
   defp create_user(_) do
