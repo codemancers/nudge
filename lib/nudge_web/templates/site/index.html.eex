@@ -3,7 +3,6 @@
 <table>
   <thead>
     <tr>
-      <th>Active</th>
       <th>Timezone</th>
       <th>Url</th>
       <th></th>
@@ -12,9 +11,17 @@
   <tbody>
     <%= for site <- @sites do %>
       <tr>
-        <td><%= link site.active, to: Routes.site_path(@conn, :edit, site) %></td>
         <td><%= site.tz %></td>
         <td><%= site.url %></td>
+        <td> <%= if site.active do %>
+          <button class="button button-outline">
+            <%= link("deactivate", to: Routes.site_path(@conn, :toggle, site.id, active: false), method: :post) %>
+          </button>
+          <% else %>
+          <button class="button button-outline">
+            <%= link("activate", to: Routes.site_path(@conn, :toggle, site.id, active: true), method: :post) %>
+          </button>
+          <% end %>
       </tr>
     <% end %>
   </tbody>
