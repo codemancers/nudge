@@ -29,7 +29,8 @@ defmodule NudgeWeb.Router do
 
   scope "/", NudgeWeb do
     pipe_through [:browser, :with_current_user]
-    resources "/site", SiteController, only: [:new, :show, :create, :index, :update, :edit]
+    resources "/site", SiteController, only: [:new, :show, :create, :index]
+    post "/site-toggle/:id", SiteController, :toggle
     get "/logout", SessionController, :logout
     get "/welcome", PageController, :welcome
   end
