@@ -1,18 +1,15 @@
 <h1> Sites List </h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Timezone</th>
-      <th>Url</th>
-      <th></th>
-    </tr>
-  </thead>
   <tbody>
     <%= for site <- @sites do %>
-      <tr>
+      <div class = "card">
+      <div class = row>
+      <%= "Time zone:" %>
         <td><%= site.tz %></td>
+        </div>
+        <div class = row>
         <td><%= site.url %></td>
+        </div>
         <td> <%= if site.active do %>
           <button class="button button-outline">
             <%= link("deactivate", to: Routes.site_path(@conn, :toggle, site.id, active: false), method: :post) %>
@@ -22,7 +19,7 @@
             <%= link("activate", to: Routes.site_path(@conn, :toggle, site.id, active: true), method: :post) %>
           </button>
           <% end %>
-      </tr>
+          </td>
+      </div>
     <% end %>
   </tbody>
-</table>
