@@ -36,11 +36,15 @@ defmodule NudgeWeb.SiteController do
 
     case Accounts.update_site(site, %{active: active}) do
       {:ok, _site} ->
-        redirect(conn, to: Routes.site_path(conn, :index))
+        if site.active == true do
+          put_flash(conn, :info, "Deactivated")
+        else
+          put_flash(conn, :info, "Activated")
+        end
+        |> redirect(to: Routes.site_path(conn, :index))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, %Ecto.Changeset{}} ->
         put_flash(conn, :info, "Coudn't update.")
-        render(conn, "index.html", site: site, changeset: changeset)
     end
   end
 end
