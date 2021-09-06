@@ -48,24 +48,23 @@ defmodule NudgeWeb.SiteControllerTest do
     setup [:create_user]
     setup [:create_site]
 
-    test "redirects and display flash when active is false", %{conn: conn, user: user, site: site} do
+    test "display Deactivated flash when site is deactivated", %{conn: conn, user: user, site: site} do
       conn =
         conn
         |> Plug.Test.init_test_session(user_id: user.id)
         |> post(Routes.site_path(conn, :toggle, site.id, %{active: false}))
 
-      assert redirected_to(conn, 302) =~ "/sites"
       assert get_flash(conn, :info) == "Deactivated"
     end
 
-    test "display flash when active is true", %{conn: conn, user: user, site: site} do
+    test "display Activated flash when site is activated and redirects", %{conn: conn, user: user, site: site} do
       conn =
         conn
         |> Plug.Test.init_test_session(user_id: user.id)
         |> post(Routes.site_path(conn, :toggle, site.id, %{active: true}))
 
       assert redirected_to(conn, 302) =~ "/sites"
-      assert get_flash(conn, :info) == "Deactivated"
+      assert get_flash(conn, :info) == "Activated"
     end
   end
 
@@ -75,7 +74,8 @@ defmodule NudgeWeb.SiteControllerTest do
   end
 
   defp create_site(_) do
-    site = fixture(:site)
+    user = fixture(:user)
+    site = fixture(:site, %{user_id: user.id})
     {:ok, site: site}
   end
 end
