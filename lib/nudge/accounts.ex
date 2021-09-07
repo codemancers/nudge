@@ -141,7 +141,8 @@ defmodule Nudge.Accounts do
   def list_user_sites(current_user_id) do
     query =
       from site in Site,
-        where: site.user_id == ^current_user_id
+        where: site.user_id == ^current_user_id,
+        order_by: site.inserted_at
 
     Repo.all(query)
   end
