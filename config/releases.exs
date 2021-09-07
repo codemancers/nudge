@@ -31,6 +31,8 @@ config :nudge, NudgeWeb.Endpoint,
   ],
   secret_key_base: secret_key_base
 
+
+  gigalixir config:set POOL_SIZE=5
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix
