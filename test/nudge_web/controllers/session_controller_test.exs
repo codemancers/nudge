@@ -1,7 +1,6 @@
 defmodule NudgeWeb.SessionControllerTest do
   use NudgeWeb.ConnCase
   use Plug.Test
-  alias Nudge.Accounts
 
   describe "login/2" do
     test "render login page", %{conn: conn} do
@@ -13,7 +12,7 @@ defmodule NudgeWeb.SessionControllerTest do
   describe "create_session/2" do
     setup [:create_user]
 
-    test "login and redirect to welcome page", %{conn: conn, user: user} do
+    test "login and redirect to welcome page", %{conn: conn} do
       conn =
         post(conn, Routes.session_path(conn, :create_session),
           session: %{email: "valid@example.com", password: "password"}
@@ -23,7 +22,7 @@ defmodule NudgeWeb.SessionControllerTest do
       assert redirected_to(conn) == Routes.page_path(conn, :welcome)
     end
 
-    test "flash when email is invalid", %{conn: conn, user: user} do
+    test "flash when email is invalid", %{conn: conn} do
       conn =
         post(conn, Routes.session_path(conn, :create_session),
           session: %{email: "invalid@example.com", password: "password"}
@@ -33,7 +32,7 @@ defmodule NudgeWeb.SessionControllerTest do
       assert get_flash(conn, :error) == "Sorry! We couldn't find the user"
     end
 
-    test "flash when password is incorrect", %{conn: conn, user: user} do
+    test "flash when password is incorrect", %{conn: conn} do
       conn =
         post(conn, Routes.session_path(conn, :create_session),
           session: %{email: "valid@example.com", password: "invalid"}
