@@ -1,0 +1,24 @@
+<%= form_for @changeset, Routes.event_path(@conn, :create), fn f -> %>
+
+
+  <%= label f, :title %>
+  <%= text_input f, :title %>
+  <%= error_tag f, :title %>
+
+  <%= label f, :body %>
+  <%= text_input f, :body %>
+  <%= error_tag f, :body %>
+
+  <%= label f, :start_date %>
+  <%= text_input f, :start_date %>
+  <%= error_tag f, :start_date %>
+
+  <%= label f, :end_date %>
+  <%= text_input f, :end_date %>
+  <%= error_tag f, :end_date %>
+
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>
