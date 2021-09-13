@@ -9,6 +9,7 @@ defmodule Nudge.Accounts.Site do
     field :url, :string
 
     belongs_to :user, User
+    has_many :events, Event
 
     timestamps(type: :utc_datetime)
   end

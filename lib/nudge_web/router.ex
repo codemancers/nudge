@@ -33,6 +33,7 @@ defmodule NudgeWeb.Router do
     post "/sites/:id/toggle", SiteController, :toggle
     get "/logout", SessionController, :logout
     get "/welcome", PageController, :welcome
+    resources "/events", EventController
   end
 
   # Other scopes may use custom stacks.
