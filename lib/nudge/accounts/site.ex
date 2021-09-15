@@ -2,6 +2,7 @@ defmodule Nudge.Accounts.Site do
   use Ecto.Schema
   import Ecto.Changeset
   alias Nudge.Accounts.User
+  alias Nudge.Sites.Event
 
   schema "sites" do
     field :active, :boolean, default: false
@@ -9,6 +10,7 @@ defmodule Nudge.Accounts.Site do
     field :url, :string
 
     belongs_to :user, User
+    has_many :events, Event
 
     timestamps(type: :utc_datetime)
   end

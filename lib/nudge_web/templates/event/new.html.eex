@@ -1,0 +1,30 @@
+<%= form_for @changeset, Routes.site_event_path(@conn, :create, :id), fn f -> %>
+
+
+  <%= label f, :title %>
+  <%= text_input f, :title %>
+  <%= error_tag f, :title %>
+
+  <%= label f, :body %>
+  <%= text_input f, :body %>
+  <%= error_tag f, :body %>
+
+  <%= label f, :start_date %>
+  <%= text_input f, :start_date %>
+  <%= error_tag f, :start_date %>
+
+  <%= label f, :end_date %>
+  <%= text_input f, :end_date %>
+  <%= error_tag f, :end_date %>
+
+  <%= label f, :kind %>
+  <%= text_input f, :kind %>
+  <%= error_tag f, :kind %>
+
+  <%= label f, :respect_dnd %>
+  <%= checkbox f, :respect_dnd %>
+  <%= error_tag f, :respect_dnd %>
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>
