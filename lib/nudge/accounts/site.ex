@@ -2,6 +2,7 @@ defmodule Nudge.Accounts.Site do
   use Ecto.Schema
   import Ecto.Changeset
   alias Nudge.Accounts.User
+  alias Nudge.Sites.Event
 
   schema "sites" do
     field :active, :boolean, default: false
