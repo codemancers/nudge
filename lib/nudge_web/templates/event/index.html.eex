@@ -7,17 +7,21 @@
       <th> body</th>
       <th> start date</th>
       <th> end date</th>
+      <th> kind</th>
+      <th> dnd</th>
 
       <th></th>
     </tr>
   </thead>
   <tbody>
-<%= for event <- @events do %>
+<%= for event <- @sites do %>
     <tr>
       <td><%= event.title %></td>
       <td><%= event.body %></td>
       <td><%= event.start_date %></td>
       <td><%= event.end_date %></td>
+      <td><%= event.kind %></td>
+      <td><%= event.respect_dnd %></td>
     </tr>
 <% end %>
   </tbody>
