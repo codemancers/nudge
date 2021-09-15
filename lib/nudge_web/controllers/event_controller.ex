@@ -8,20 +8,43 @@ defmodule NudgeWeb.EventController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"event" => event_params}) do
-    case Sites.create_event(event_params) do
+  def create(conn, %{
+        "event" => %{
+          "title" => title,
+          "body" => body,
+          "start_date" => start_date,
+          "end_date" => end_date,
+          "kind" => kind,
+          "respect_dnd" => dnd
+        }
+      }) do
+    IO.inspect(conn.assigns)
+
+    case Sites.create_event(%{
+           "title" => title,
+           "body" => body,
+           "start_date" => start_date,
+           "end_date" => end_date,
+           "kind" => kind,
+           "respect_dnd" => dnd,
+           "site_id" => 7
+         }) do
       {:ok, event} ->
         conn
         |> put_flash(:info, "Site created successfully.")
-        |> redirect(to: Routes.event_path(conn, :index))
+        |> redirect(to: Routes.site_event_path(conn, :index, :id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
-  def index(conn, _params) do
-    events = Sites.list_events()
+  def index(conn, %{"site_id" => id}) do
+    id = 7
+    site_id = Nudge.Accounts.get_site!(id)
+
+    IO.inspect(site_id)
+    events = Sites.list_site_events(site_id)
     render(conn, "index.html", sites: events)
   end
 end

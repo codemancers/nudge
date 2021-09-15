@@ -21,6 +21,15 @@ defmodule Nudge.Sites do
     Repo.all(Event)
   end
 
+  def list_site_events(site_id) do
+    query =
+      from site in Nudge.Accounts.Site,
+        where: site.id == ^site_id,
+        order_by: site.inserted_at
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single event.
 

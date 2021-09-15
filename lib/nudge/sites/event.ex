@@ -20,6 +20,6 @@ defmodule Nudge.Sites.Event do
   def changeset(event, attrs) do
     event
     |> cast(attrs, [:title, :body, :start_date, :end_date, :kind, :respect_dnd, :site_id])
-    |> validate_required([:title, :body, :start_date, :end_date, :kind, :respect_dnd])
+    |> validate_required([:title, :body, :start_date, :end_date, :kind, :respect_dnd, :site_id])
   end
 end

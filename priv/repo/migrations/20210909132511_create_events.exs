@@ -11,7 +11,6 @@ defmodule Nudge.Repo.Migrations.CreateEvents do
       add :respect_dnd, :boolean, default: false, null: false
       add :site_id, references(:sites, on_delete: :nothing)
 
-
       timestamps()
     end
   end
